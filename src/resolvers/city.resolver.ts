@@ -1,4 +1,4 @@
-import { citySearch } from '../services/openMeteo'
+import { searchCity } from '../services/openMeteo'
 
 type CitySuggestionsArgs = {
   name: string
@@ -11,7 +11,7 @@ export const cityResolver = {
       args: CitySuggestionsArgs,
       context: unknown,
     ) => {
-      const cities = await citySearch(args?.name)
+      const cities = await searchCity(args?.name)
       return cities
     },
   },
