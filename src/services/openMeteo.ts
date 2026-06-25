@@ -1,8 +1,11 @@
 import axios from 'axios'
 import { City } from '../types'
-import { OpenMeteoCityResult } from '../types/openMeteo.types'
+import {
+  OpenMeteoCityResult,
+  OpenMeteoWeatherResults,
+} from '../types/openMeteo.types'
 
-export const citySearch = async (cityName: string): Promise<City[]> => {
+export const searchCity = async (cityName: string): Promise<City[]> => {
   const geocodingApiEndpoint = 'https://geocoding-api.open-meteo.com'
   const count = 5 // assumption: used for search dropdown
   const language = 'en' // assumption: english language is used
@@ -23,5 +26,45 @@ export const citySearch = async (cityName: string): Promise<City[]> => {
     lon: city?.longitude,
     timezone: city?.timezone,
     countryCode: city?.country_code,
+    elevation: city?.elevation,
   }))
+}
+
+export const getDailyWeather = async (
+  lat: number,
+  lon: number,
+  timezone: string,
+) => {
+  const weatherforecastApiEndpoint = 'https://api.open-meteo.com/v1/forecast'
+
+  const dailyArgs = [
+    'temperature_2m_max',
+    'temperature_2m_min',
+    'precipitation_sum',
+    'snowfall_sum',
+    'windspeed_10m_max',
+  ]
+
+  const forecastDays = 7 // defualt assumption
+
+  const res = await axios.get<OpenMeteoWeatherResults>(
+    `${weatherforecastApiEndpoint}?latitude=${lat}&longitude=${lon}&timezone=${timezone}&forecast_days=${forecastDays}&daily=${dailyArgs.join(',')}`,
+  )
+
+  const dailyWeather = res?.data?.daily
+
+  if (!dailyWeather) return []
+
+  const weeklyWeather = dailyWeather?.time?.map(
+    (date: string, index: number) => ({
+      date: date,
+      maxTemp: dailyWeather?.temperature_2m_max?.[index],
+      minTemp: dailyWeather?.temperature_2m_min?.[index],
+      snow: dailyWeather?.snowfall_sum?.[index],
+      precipitation: dailyWeather?.precipitation_sum?.[index],
+      windSpeed: dailyWeather?.windspeed_10m_max?.[index],
+    }),
+  )
+
+  return weeklyWeather
 }

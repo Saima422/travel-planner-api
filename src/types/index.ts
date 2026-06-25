@@ -6,4 +6,5 @@ export type City = {
   lon: number
   timezone: string
   countryCode: string
+  elevation: number
 }
