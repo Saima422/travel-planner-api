@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { City } from '../types'
+import { City, DailyForecast } from '../types'
 import {
   OpenMeteoCityResult,
   OpenMeteoWeatherResults,
@@ -34,7 +34,7 @@ export const getDailyWeather = async (
   lat: number,
   lon: number,
   timezone: string,
-) => {
+): Promise<DailyForecast[]> => {
   const weatherforecastApiEndpoint = 'https://api.open-meteo.com/v1/forecast'
 
   const dailyArgs = [
@@ -55,7 +55,7 @@ export const getDailyWeather = async (
 
   if (!dailyWeather) return []
 
-  const weeklyWeather = dailyWeather?.time?.map(
+  const daily7DayWeather = dailyWeather?.time?.map(
     (date: string, index: number) => ({
       date: date,
       maxTemp: dailyWeather?.temperature_2m_max?.[index],
@@ -66,5 +66,5 @@ export const getDailyWeather = async (
     }),
   )
 
-  return weeklyWeather
+  return daily7DayWeather
 }
