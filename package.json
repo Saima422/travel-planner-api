@@ -1,0 +1,25 @@
+{
+  "name": "travel-planner-api",
+  "version": "1.0.0",
+  "description": "grphql server which exposes api endpoints for city suggestions, weather forecast and suggests activites based on forecast",
+  "license": "ISC",
+  "author": "saima sayed",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@apollo/server": "^5.5.1",
+    "graphql": "^16.14.2"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.1",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}
