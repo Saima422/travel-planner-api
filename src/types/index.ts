@@ -17,3 +17,16 @@ export type DailyForecast = {
   precipitation: number
   windSpeed: number
 }
+
+export enum ActivityType {
+  SKIING = 'SKIING',
+  SURFING = 'SURFING',
+  INDOOR_SIGHTSEEING = 'INDOOR_SIGHTSEEING',
+  OUTDOOR_SIGHTSEEING = 'OUTDOOR_SIGHTSEEING',
+}
+
+export type ActivityRanking = {
+  activity: ActivityType
+  score: number
+  reason: string
+}

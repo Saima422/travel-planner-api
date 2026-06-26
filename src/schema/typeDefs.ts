@@ -3,15 +3,18 @@ import { gql } from 'graphql-tag'
 export const typeDefs = gql`
   type Query {
     citySuggestions(name: String!): [City!]!
+
     weatherForecast(
       lat: Float!
       lon: Float!
       timezone: String!
     ): WeatherForecast
+
     activityRanking(
       lat: Float!
       lon: Float!
       timezone: String!
+      elevation: Float!
     ): [ActivityDayRanking!]!
   }
 

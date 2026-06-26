@@ -6,6 +6,7 @@ type ActivityRankingArgs = {
   lat: number
   lon: number
   timezone: string
+  elevation: number
 }
 
 export const activityResolver = {
@@ -21,9 +22,10 @@ export const activityResolver = {
         args?.timezone,
       )
 
-      const ranking = dailyWeather?.map((day: DailyForecast) =>
-        calculateActivityRank(day),
-      )
+      const ranking = dailyWeather?.map((day: DailyForecast) => ({
+        date: day?.date,
+        ranks: calculateActivityRank(day, args?.elevation),
+      }))
       return ranking
     },
   },
